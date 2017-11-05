@@ -10,6 +10,7 @@ A plugin for [danger.systems](http://danger.systems) that makes sure your projec
 - [Installation](#installation)
 - [Usage](#usage)
   - [Configuration](#configuration)
+  - [Methods and Attributes](#methods-and-attributes)
     - [toc.files](#toc-files)
     - [toc.check](#toc-check)
 - [Contributing](#contributing)
@@ -29,8 +30,6 @@ Add `toc.check` to your Dangerfile. Make a pull request and see this plugin in a
 
 ## Usage
 
-Methods and attributes from this plugin are available in your `Dangerfile` under the `toc` namespace.
-
 ### Configuration
 
 The plugin supports following configuration options:
@@ -41,6 +40,10 @@ Danger::Toc.configure do |config|
   config.files = [ 'README.md' ]
 end
 ```
+
+### Methods and Attributes
+
+Methods and attributes from this plugin are available in your `Dangerfile` under the `toc` namespace.
 
 #### toc.files
 
