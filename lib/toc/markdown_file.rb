@@ -40,7 +40,7 @@ module Danger
       def toc_from_headers
         headers.map do |header|
           [
-            ' ' * header[:depth],
+            ' ' * header[:depth] * 2,
             "- [#{header[:text]}]",
             "(##{header[:text].parameterize})"
           ].compact.join

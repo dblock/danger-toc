@@ -9,9 +9,9 @@ A plugin for [danger.systems](http://danger.systems) that makes sure your projec
 
 - [Installation](#installation)
 - [Usage](#usage)
- - [Configuration](#configuration)
-  - [toc.files](#toc-files)
-  - [toc.check](#toc-check)
+  - [Configuration](#configuration)
+    - [toc.files](#toc-files)
+    - [toc.check](#toc-check)
 - [Contributing](#contributing)
 - [Copyright](#copyright)
 
