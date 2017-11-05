@@ -49,9 +49,18 @@ describe Danger::Toc do
         let(:filename) { File.expand_path('../fixtures/markdown_file/ONE-SECTION.md', __FILE__) }
         it 'reports errors' do
           expect(subject).to be false
-          expect(status_report[:errors]).to eq ["The #{filename} file is missing a TOC. Please add the following."]
+          expect(status_report[:errors]).to eq ["The #{filename} file is missing a TOC."]
           expect(status_report[:warnings]).to eq []
-          expect(status_report[:markdowns].map(&:message)).to eq ["```markdown\n# Table of Contents\n\n- [What is This?](#what-is-this)```\n"]
+          expect(status_report[:markdowns].map(&:message)).to eq [<<-MARKDOWN
+Here's the expected TOC for #{filename}:
+
+```markdown
+# Table of Contents
+
+- [What is This?](#what-is-this)
+```
+MARKDOWN
+]
         end
       end
 
@@ -59,9 +68,18 @@ describe Danger::Toc do
         let(:filename) { File.expand_path('../fixtures/markdown_file/ONE-SECTION-WITH-INVALID-TOC.md', __FILE__) }
         it 'reports errors' do
           expect(subject).to be false
-          expect(status_report[:errors]).to eq ["The TOC found in #{filename} doesn't match the sections of the file. Please update it to the following."]
+          expect(status_report[:errors]).to eq ["The TOC found in #{filename} doesn't match the sections of the file."]
           expect(status_report[:warnings]).to eq []
-          expect(status_report[:markdowns].map(&:message)).to eq ["```markdown\n# Table of Contents\n\n- [What is This?](#what-is-this)```\n"]
+          expect(status_report[:markdowns].map(&:message)).to eq [<<-MARKDOWN
+Here's the expected TOC for #{filename}:
+
+```markdown
+# Table of Contents
+
+- [What is This?](#what-is-this)
+```
+MARKDOWN
+]
         end
       end
     end

@@ -1,3 +1,5 @@
+require 'active_support/core_ext/string/inflections'
+
 module Danger
   module Toc
     class MarkdownFile
@@ -14,6 +16,7 @@ module Danger
         @exists = File.exist?(filename)
         if @exists
           parse!
+          reduce!
           validate!
         end
       end
@@ -37,9 +40,9 @@ module Danger
       def toc_from_headers
         headers.map do |header|
           [
-            ' ' * (header[:depth] - 1),
+            ' ' * header[:depth],
             "- [#{header[:text]}]",
-            "(##{header[:text].to_url})"
+            "(##{header[:text].parameterize})"
           ].compact.join
         end
       end
@@ -53,10 +56,11 @@ module Danger
         reading_toc = false
         @headers = []
         File.open(filename).each_line do |line|
-          line.strip!
+          line.rstrip!
           next if line.empty?
           unless @has_toc
             if reading_toc = TOC.match(line)
+              @headers = [] # drop any headers prior to TOC
               @has_toc = true
               next
             end
@@ -65,6 +69,18 @@ module Danger
           reading_toc = false if reading_toc && header
           @toc << line if reading_toc
           @headers << { depth: header['depth'].length, text: header['text'] } if header
+        end
+      end
+
+      def reduce!
+        min_depth = nil
+        headers.each do |header|
+          min_depth = header[:depth] unless min_depth && min_depth < header[:depth]
+        end
+        if min_depth
+          headers.each do |header|
+            header[:depth] -= min_depth
+          end
         end
       end
 

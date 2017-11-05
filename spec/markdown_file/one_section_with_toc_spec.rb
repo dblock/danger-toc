@@ -16,7 +16,7 @@ describe Danger::Toc::MarkdownFile do
       expect(subject.toc).to eq(['- [What is This?](#what-is-this)'])
     end
     it 'headers' do
-      expect(subject.headers).to eq([{ depth: 1, text: 'What is This?' }])
+      expect(subject.headers).to eq([{ depth: 0, text: 'What is This?' }])
     end
     it 'good?' do
       expect(subject.good?).to be true

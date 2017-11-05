@@ -19,6 +19,7 @@ module Danger
     attr_accessor :filenames
 
     def initialize(dangerfile)
+      @filenames = ['README.md']
       super
     end
 
@@ -46,15 +47,18 @@ module Danger
           true
         else
           markdown <<-MARKDOWN
+Here's the expected TOC for #{filename}:
+
 ```markdown
 # Table of Contents
 
-#{toc_file.toc_from_headers.join("\n")}```
+#{toc_file.toc_from_headers.join("\n")}
+```
 MARKDOWN
           if toc_file.has_toc?
-            messaging.fail("The TOC found in #{filename} doesn't match the sections of the file. Please update it to the following.", sticky: false)
+            messaging.fail("The TOC found in #{filename} doesn't match the sections of the file.", sticky: false)
           else
-            messaging.fail("The #{filename} file is missing a TOC. Please add the following.", sticky: false)
+            messaging.fail("The #{filename} file is missing a TOC.", sticky: false)
           end
           false
         end

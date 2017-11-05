@@ -5,7 +5,7 @@ cache:
     - bundle
 
 rvm:
-  - 2.3.1
+  - 2.4.1
 
 before_script:
     - bundle exec danger
