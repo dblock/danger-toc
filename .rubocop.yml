@@ -1,0 +1,13 @@
+AllCops:
+  Include:
+    - Rakefile
+  Exclude:
+    - vendor/**/*
+
+Metrics/BlockLength:
+  Enabled: fale
+
+Metrics/LineLength:
+  Enabled: fale
+
+inherit_from: .rubocop_todo.yml
