@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe Danger::Toc::MarkdownFile do
-  describe 'ONE-SECTION-WITH-TOC-LEVEL.md' do
-    let(:filename) { File.expand_path('../../fixtures/markdown_file/ONE-SECTION-WITH-TOC-LEVEL.md', __FILE__) }
+  describe 'WITH-QUOTED-EXAMPLE.md' do
+    let(:filename) { File.expand_path('../../fixtures/markdown_file/WITH-QUOTED-EXAMPLE.md', __FILE__) }
     subject do
       Danger::Toc::MarkdownFile.new(filename)
     end
@@ -13,10 +13,15 @@ describe Danger::Toc::MarkdownFile do
       expect(subject.has_toc?).to be true
     end
     it 'toc' do
-      expect(subject.toc).to eq(['- [What is This?](#what-is-this)'])
+      expect(subject.toc).to eq(['- [Example](#example)', '- [Conclusion](#conclusion)'])
     end
     it 'headers' do
-      expect(subject.headers).to eq([{ depth: 0, id: 'what-is-this', text: 'What is This?' }])
+      expect(subject.headers).to eq(
+        [
+          { depth: 0, id: 'example', text: 'Example' },
+          { depth: 0, id: 'conclusion', text: 'Conclusion' }
+        ]
+      )
     end
     it 'good?' do
       expect(subject.good?).to be true

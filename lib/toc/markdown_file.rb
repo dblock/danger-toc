@@ -1,11 +1,11 @@
 require 'active_support/core_ext/string/inflections'
 
+require_relative 'extractor'
+require_relative 'constructor'
+
 module Danger
   module Toc
     class MarkdownFile
-      # TODO: make configurable
-      TOC = /^(?<depth>\#+)[[:space:]]+(Table of Contents)/
-
       attr_reader :filename
       attr_reader :exists
       attr_reader :toc
@@ -42,7 +42,7 @@ module Danger
           [
             ' ' * header[:depth] * 2,
             "- [#{header[:text]}]",
-            "(##{header[:text].parameterize})"
+            "(##{header[:id]})"
           ].compact.join
         end
       end
@@ -51,25 +51,16 @@ module Danger
 
       # Parse markdown file for TOC.
       def parse!
-        @has_toc = false
-        @toc = []
-        reading_toc = false
-        @headers = []
-        File.open(filename).each_line do |line|
-          line.rstrip!
-          next if line.empty?
-          unless @has_toc
-            if reading_toc = TOC.match(line)
-              @headers = [] # drop any headers prior to TOC
-              @has_toc = true
-              next
-            end
-          end
-          header = /^(?<depth>\#+)[[:space:]]+(?<text>.*)/.match(line)
-          reading_toc = false if reading_toc && header
-          @toc << line if reading_toc
-          @headers << { depth: header['depth'].length, text: header['text'] } if header
-        end
+        md = File.read(filename)
+        doc = Kramdown::Document.new(md)
+
+        # extract toc
+        toc_start, toc_end = Danger::Toc::Extractor.convert(doc.root).first
+        @has_toc = toc_start && toc_end
+        @toc = md.split("\n")[toc_start, toc_end - toc_start - 1].reject(&:empty?) if @has_toc
+
+        # construct toc
+        @headers = Danger::Toc::Constructor.convert(doc.root).first
       end
 
       def reduce!

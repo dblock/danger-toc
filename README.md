@@ -11,8 +11,8 @@ A plugin for [danger.systems](http://danger.systems) that makes sure your projec
 - [Usage](#usage)
   - [Configuration](#configuration)
   - [Methods and Attributes](#methods-and-attributes)
-    - [toc.files](#toc-files)
-    - [toc.check](#toc-check)
+    - [toc.files](#tocfiles)
+    - [toc.check](#toccheck)
 - [Contributing](#contributing)
 - [Copyright](#copyright)
 

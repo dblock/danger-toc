@@ -13,10 +13,10 @@ describe Danger::Toc::MarkdownFile do
       expect(subject.has_toc?).to be false
     end
     it 'toc' do
-      expect(subject.toc).to eq([])
+      expect(subject.toc).to be nil
     end
     it 'headers' do
-      expect(subject.headers).to eq([{ depth: 0, text: 'What is This?' }])
+      expect(subject.headers).to eq([{ depth: 0, id: 'what-is-this', text: 'What is This?' }])
     end
     it 'good?' do
       expect(subject.good?).to be false
