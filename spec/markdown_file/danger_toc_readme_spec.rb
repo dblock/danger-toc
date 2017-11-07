@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Danger::Toc::MarkdownFile do
-  describe 'README.md' do
+  describe 'danger-toc README' do
     let(:filename) { File.expand_path('../../../README.md', __FILE__) }
     subject do
       Danger::Toc::MarkdownFile.new(filename)

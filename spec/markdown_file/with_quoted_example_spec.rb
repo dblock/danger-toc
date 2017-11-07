@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe Danger::Toc::MarkdownFile do
-  describe 'WITH-QUOTED-EXAMPLE.md' do
-    let(:filename) { File.expand_path('../../fixtures/markdown_file/WITH-QUOTED-EXAMPLE.md', __FILE__) }
+  describe 'with a code example' do
+    let(:filename) { File.expand_path('../../fixtures/markdown_file/with_quoted_example.md', __FILE__) }
     subject do
       Danger::Toc::MarkdownFile.new(filename)
     end

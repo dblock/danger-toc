@@ -10,7 +10,7 @@ describe Danger::Toc do
   end
 
   describe 'with Dangerfile' do
-    let(:filename) { File.expand_path('../fixtures/markdown_file/ONE-SECTION-WITH-TOC.md', __FILE__) }
+    let(:filename) { File.expand_path('../fixtures/markdown_file/one_section_with_toc.md', __FILE__) }
     let(:dangerfile) { testing_dangerfile }
     let(:toc) do
       dangerfile.toc.filenames = [filename]
@@ -46,7 +46,7 @@ describe Danger::Toc do
       end
 
       context 'with missing TOC' do
-        let(:filename) { File.expand_path('../fixtures/markdown_file/ONE-SECTION.md', __FILE__) }
+        let(:filename) { File.expand_path('../fixtures/markdown_file/one_section.md', __FILE__) }
         it 'reports errors' do
           expect(subject).to be false
           expect(status_report[:errors]).to eq ["The #{filename} file is missing a TOC."]
@@ -65,7 +65,7 @@ MARKDOWN
       end
 
       context 'with invalid TOC' do
-        let(:filename) { File.expand_path('../fixtures/markdown_file/ONE-SECTION-WITH-INVALID-TOC.md', __FILE__) }
+        let(:filename) { File.expand_path('../fixtures/markdown_file/one_section_with_invalid_toc.md', __FILE__) }
         it 'reports errors' do
           expect(subject).to be false
           expect(status_report[:errors]).to eq ["The TOC found in #{filename} doesn't match the sections of the file."]
