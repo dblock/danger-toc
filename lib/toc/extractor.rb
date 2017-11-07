@@ -11,7 +11,7 @@ module Danger
       end
 
       def convert(el)
-        if el.type == :header && el.options[:raw_text] == 'Table of Contents'
+        if el.type == :header && el.options[:raw_text] == Danger::Toc.config.header
           @in_toc = true
           @toc_start = el.options[:location]
         elsif el.type == :header

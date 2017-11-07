@@ -7,20 +7,38 @@ describe Danger::Toc::Config do
 
   describe 'configure' do
     describe 'files' do
-      context 'defailt' do
+      context 'default' do
         it 'assumes README.md' do
           expect(Danger::Toc.config.files).to eq ['README.md']
         end
       end
-      context 'when valid' do
+      context 'custom value' do
         before do
           Danger::Toc.configure do |config|
             config.files = ['README.md', 'SOMETHING.md']
           end
         end
 
-        it 'saves configuration' do
+        it 'is set' do
           expect(Danger::Toc.config.files).to eq ['README.md', 'SOMETHING.md']
+        end
+      end
+    end
+    describe 'header' do
+      context 'default' do
+        it 'assumes Table of Contents' do
+          expect(Danger::Toc.config.header).to eq 'Table of Contents'
+        end
+      end
+      context 'custom value' do
+        before do
+          Danger::Toc.configure do |config|
+            config.header = 'Custom TOC'
+          end
+        end
+
+        it 'is set' do
+          expect(Danger::Toc.config.header).to eq 'Custom TOC'
         end
       end
     end

@@ -50,7 +50,7 @@ module Danger
 Here's the expected TOC for #{filename}:
 
 ```markdown
-# Table of Contents
+# #{Danger::Toc.config.header}
 
 #{toc_file.toc_from_headers.join("\n")}
 ```

@@ -12,6 +12,7 @@ A plugin for [danger.systems](http://danger.systems) that makes sure your projec
   - [Configuration](#configuration)
   - [Methods and Attributes](#methods-and-attributes)
     - [toc.files](#tocfiles)
+    - [toc.header](#tocheader)
     - [toc.check](#toccheck)
 - [Contributing](#contributing)
 - [Copyright](#copyright)
@@ -34,10 +35,10 @@ Add `toc.check` to your Dangerfile. Make a pull request and see this plugin in a
 
 The plugin supports following configuration options:
 
-You can configure plugin using following code:
 ```ruby
 Danger::Toc.configure do |config|
   config.files = [ 'README.md' ]
+  config.header = 'Table of Contents'
 end
 ```
 
@@ -47,7 +48,11 @@ Methods and attributes from this plugin are available in your `Dangerfile` under
 
 #### toc.files
 
-List of files to ensure TOC in.
+List of files to ensure TOC in, default is `README.md`.
+
+#### toc.header
+
+The Table of Contents header, without `#`, default is `Table of Contents`.
 
 #### toc.check
 

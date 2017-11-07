@@ -4,13 +4,21 @@ module Danger
       extend self
 
       attr_accessor :files
+      attr_accessor :header
 
+      # Files to process
       def files=(value)
         @files = value
       end
 
+      # Table of Contents Header
+      def header=(value)
+        @header = value
+      end
+
       def reset
         self.files = ['README.md']
+        self.header = 'Table of Contents'
       end
 
       reset

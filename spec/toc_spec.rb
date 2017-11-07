@@ -82,6 +82,32 @@ MARKDOWN
 ]
         end
       end
+
+      context 'with a custom toc header' do
+        before do
+          Danger::Toc.configure do |config|
+            config.header = 'Custom TOC'
+          end
+        end
+
+        context 'with missing TOC' do
+          let(:filename) { File.expand_path('../fixtures/markdown_file/one_section.md', __FILE__) }
+          it 'reports errors' do
+            expect(subject).to be false
+            expect(status_report[:markdowns].first.message).to include "\n# Custom TOC\n"
+          end
+        end
+
+        context 'with a custom TOC' do
+          let(:filename) { File.expand_path('../fixtures/markdown_file/one_section_with_custom_toc.md', __FILE__) }
+          it 'has no complaints' do
+            expect(subject).to be true
+            expect(status_report[:errors]).to eq []
+            expect(status_report[:warnings]).to eq []
+            expect(status_report[:markdowns]).to eq []
+          end
+        end
+      end
     end
   end
 end
