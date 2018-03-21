@@ -29,10 +29,10 @@ module Danger
       is_toc_correct?
     end
 
-    # Has the CHANGELOG file been modified?
+    # Has the README file been modified?
     # @return [boolean]
     def toc_changes?
-      (git.modified_files & filename).any? || (git.added_files & filenames).any?
+      (git.modified_files & filenames).any? || (git.added_files & filenames).any?
     end
 
     # Is the TOC format correct?
