@@ -18,6 +18,29 @@ describe Danger::Toc do
     end
     let(:status_report) { toc.status_report }
 
+    context 'toc_changes?' do
+      it 'should find modified files' do
+        allow(toc.git).to receive(:modified_files).and_return([filename])
+        allow(toc.git).to receive(:added_files).and_return([])
+
+        expect(toc).to be_toc_changes
+      end
+
+      it 'should find added files' do
+        allow(toc.git).to receive(:modified_files).and_return([])
+        allow(toc.git).to receive(:added_files).and_return([filename])
+
+        expect(toc).to be_toc_changes
+      end
+
+      it 'should not found changed files' do
+        allow(toc.git).to receive(:modified_files).and_return([])
+        allow(toc.git).to receive(:added_files).and_return([])
+
+        expect(toc).not_to be_toc_changes
+      end
+    end
+
     context 'is_toc_correct?' do
       subject do
         toc.is_toc_correct?
