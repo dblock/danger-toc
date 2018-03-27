@@ -1,5 +1,9 @@
 ## Changelog
 
+### 0.1.2 (Next)
+
+* Your contribution here.
+
 ### 0.1.1 (2018/03/27)
 
 * [#3](https://github.com/dblock/danger-toc/issues/3): Configure "Table of Contents" header with `toc.header` - [@dblock](https://github.com/dblock).
