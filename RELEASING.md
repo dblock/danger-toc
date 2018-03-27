@@ -31,7 +31,7 @@ Commit your changes.
 
 ```
 git add CHANGELOG.md lib/toc/gem_version.rb
-git commit -m "Preparing for release 0.2.2."
+git commit -m "Preparing for release, 0.2.2."
 git push origin master
 ```
 
@@ -61,7 +61,7 @@ Increment the third version number in [lib/toc/gem_version.rb](lib/toc/gem_versi
 Commit your changes.
 
 ```
-git add CHANGELOG.md lib/slack/version.rb
+git add CHANGELOG.md lib/toc/gem_version.rb
 git commit -m "Preparing for next development iteration, 0.2.3."
 git push origin master
 ```
