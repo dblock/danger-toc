@@ -3,8 +3,8 @@ module Danger
     module Config
       extend self
 
-      attr_accessor :files
-      attr_accessor :header
+      attr_accessor :files, :header
+      attr_writer :format
 
       # Files to process
       def files=(value)
@@ -16,9 +16,18 @@ module Danger
         @header = value
       end
 
+      def format
+        @format ||= default_format
+      end
+
+      def default_format
+        :github
+      end
+
       def reset
         self.files = ['README.md']
         self.header = 'Table of Contents'
+        self.format = default_format
       end
 
       reset
