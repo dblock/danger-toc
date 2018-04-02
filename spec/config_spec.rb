@@ -42,5 +42,25 @@ describe Danger::Toc::Config do
         end
       end
     end
+
+    describe 'format' do
+      context 'default' do
+        it 'assumes github' do
+          expect(Danger::Toc.config.format).to eq(:github)
+        end
+      end
+
+      context 'custom value' do
+        before do
+          Danger::Toc.configure do |config|
+            config.format = :kramdown
+          end
+        end
+
+        it 'is set' do
+          expect(Danger::Toc.config.format).to eq(:kramdown)
+        end
+      end
+    end
   end
 end

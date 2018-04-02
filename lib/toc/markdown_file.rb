@@ -1,7 +1,7 @@
 require 'active_support/core_ext/string/inflections'
 
 require_relative 'extractor'
-require_relative 'constructor'
+require_relative 'constructors'
 
 module Danger
   module Toc
@@ -60,7 +60,7 @@ module Danger
         @toc = md.split("\n")[toc_start, toc_end - toc_start - 1].reject(&:empty?) if @has_toc
 
         # construct toc
-        @headers = Danger::Toc::Constructor.convert(doc.root).first
+        @headers = Danger::Toc::Constructors.current.convert(doc.root).first
       end
 
       def reduce!
