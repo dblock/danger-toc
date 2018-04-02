@@ -1,9 +1,8 @@
 ## Changelog
 
-### 0.1.2 (Next)
+### 0.1.2 (2018/04/02)
 
 * [#14](https://github.com/dblock/danger-toc/pull/14): Configure "Table of Contents" format with `toc.format`. Allow values: github (by default) and kramdown - [@mr-dxdy](https://github.com/mr-dxdy).
-* Your contribution here.
 
 ### 0.1.1 (2018/03/27)
 
