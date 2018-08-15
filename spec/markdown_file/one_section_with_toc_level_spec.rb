@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Danger::Toc::MarkdownFile do
   describe 'one section that is not at the root level' do
-    let(:filename) { File.expand_path('../../fixtures/markdown_file/one_section_with_toc_level.md', __FILE__) }
+    let(:filename) { File.expand_path('../fixtures/markdown_file/one_section_with_toc_level.md', __dir__) }
     subject do
       Danger::Toc::MarkdownFile.new(filename)
     end

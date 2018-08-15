@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Danger::Toc::MarkdownFile do
   describe 'one section with TOC' do
-    let(:filename) { File.expand_path('../../fixtures/markdown_file/one_section_with_toc.md', __FILE__) }
+    let(:filename) { File.expand_path('../fixtures/markdown_file/one_section_with_toc.md', __dir__) }
     subject do
       Danger::Toc::MarkdownFile.new(filename)
     end

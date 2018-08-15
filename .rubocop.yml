@@ -1,6 +1,4 @@
 AllCops:
-  Include:
-    - Rakefile
   Exclude:
     - vendor/**/*
 
@@ -9,5 +7,8 @@ Metrics/BlockLength:
 
 Metrics/LineLength:
   Enabled: fale
+
+Style/ModuleFunction:
+  Enabled: false
 
 inherit_from: .rubocop_todo.yml

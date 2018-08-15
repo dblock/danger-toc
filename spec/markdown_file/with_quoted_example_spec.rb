@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Danger::Toc::MarkdownFile do
   describe 'with a code example' do
-    let(:filename) { File.expand_path('../../fixtures/markdown_file/with_quoted_example.md', __FILE__) }
+    let(:filename) { File.expand_path('../fixtures/markdown_file/with_quoted_example.md', __dir__) }
     subject do
       Danger::Toc::MarkdownFile.new(filename)
     end

@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Danger::Toc::MarkdownFile do
   describe 'with a underscore in section name' do
     let(:filename) do
-      File.expand_path('../../fixtures/markdown_file/one_section_with_underscore_in_name.md', __FILE__)
+      File.expand_path('../fixtures/markdown_file/one_section_with_underscore_in_name.md', __dir__)
     end
 
     subject do

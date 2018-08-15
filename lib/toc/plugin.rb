@@ -54,7 +54,7 @@ Here's the expected TOC for #{filename}:
 
 #{toc_file.toc_from_headers.join("\n")}
 ```
-MARKDOWN
+          MARKDOWN
           if toc_file.has_toc?
             messaging.fail("The TOC found in #{filename} doesn't match the sections of the file.", sticky: false)
           else

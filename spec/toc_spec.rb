@@ -1,4 +1,4 @@
-require File.expand_path('../spec_helper', __FILE__)
+require File.expand_path('spec_helper', __dir__)
 
 describe Danger::Toc do
   after(:each) do
@@ -10,7 +10,7 @@ describe Danger::Toc do
   end
 
   describe 'with Dangerfile' do
-    let(:filename) { File.expand_path('../fixtures/markdown_file/one_section_with_toc.md', __FILE__) }
+    let(:filename) { File.expand_path('fixtures/markdown_file/one_section_with_toc.md', __dir__) }
     let(:dangerfile) { testing_dangerfile }
     let(:toc) do
       dangerfile.toc.filenames = [filename]
@@ -69,7 +69,7 @@ describe Danger::Toc do
       end
 
       context 'with missing TOC' do
-        let(:filename) { File.expand_path('../fixtures/markdown_file/one_section.md', __FILE__) }
+        let(:filename) { File.expand_path('fixtures/markdown_file/one_section.md', __dir__) }
         it 'reports errors' do
           expect(subject).to be false
           expect(status_report[:errors]).to eq ["The #{filename} file is missing a TOC."]
@@ -82,13 +82,13 @@ Here's the expected TOC for #{filename}:
 
 - [What is This?](#what-is-this)
 ```
-MARKDOWN
+          MARKDOWN
 ]
         end
       end
 
       context 'with invalid TOC' do
-        let(:filename) { File.expand_path('../fixtures/markdown_file/one_section_with_invalid_toc.md', __FILE__) }
+        let(:filename) { File.expand_path('fixtures/markdown_file/one_section_with_invalid_toc.md', __dir__) }
         it 'reports errors' do
           expect(subject).to be false
           expect(status_report[:errors]).to eq ["The TOC found in #{filename} doesn't match the sections of the file."]
@@ -101,7 +101,7 @@ Here's the expected TOC for #{filename}:
 
 - [What is This?](#what-is-this)
 ```
-MARKDOWN
+          MARKDOWN
 ]
         end
       end
@@ -114,7 +114,7 @@ MARKDOWN
         end
 
         context 'with missing TOC' do
-          let(:filename) { File.expand_path('../fixtures/markdown_file/one_section.md', __FILE__) }
+          let(:filename) { File.expand_path('fixtures/markdown_file/one_section.md', __dir__) }
           it 'reports errors' do
             expect(subject).to be false
             expect(status_report[:markdowns].first.message).to include "\n# Custom TOC\n"
@@ -122,7 +122,7 @@ MARKDOWN
         end
 
         context 'with a custom TOC' do
-          let(:filename) { File.expand_path('../fixtures/markdown_file/one_section_with_custom_toc.md', __FILE__) }
+          let(:filename) { File.expand_path('fixtures/markdown_file/one_section_with_custom_toc.md', __dir__) }
           it 'has no complaints' do
             expect(subject).to be true
             expect(status_report[:errors]).to eq []
