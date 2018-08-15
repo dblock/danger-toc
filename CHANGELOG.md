@@ -1,9 +1,8 @@
 ## Changelog
 
-### 0.1.3 (Next)
+### 0.1.3 (2018/08/15)
 
 * [#7](https://github.com/dblock/danger-toc/issues/7): Parse documents as Github Flavored Markdown by default - [@dblock](https://github.com/dblock).
-* Your contribution here.
 
 ### 0.1.2 (2018/04/02)
 
