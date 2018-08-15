@@ -12,7 +12,11 @@ The quick brown fox jumps over the lazy dog.
 The quick brown fox jumps over the lazy dog.
 
 ```ruby
-# example config.ru
+# one
+
+require 'danger-toc'
+
+# two
 
 require 'danger-toc'
 ```

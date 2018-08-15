@@ -52,7 +52,7 @@ module Danger
       # Parse markdown file for TOC.
       def parse!
         md = File.read(filename)
-        doc = Kramdown::Document.new(md)
+        doc = Kramdown::Document.new(md, input: 'GFM')
 
         # extract toc
         toc_start, toc_end = Danger::Toc::Extractor.convert(doc.root).first
