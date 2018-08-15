@@ -24,10 +24,10 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'bundler', '~> 1.3'
   spec.add_development_dependency 'guard', '~> 2.14'
   spec.add_development_dependency 'guard-rspec', '~> 4.7'
-  spec.add_development_dependency 'listen', '3.0.7'
+  spec.add_development_dependency 'listen'
   spec.add_development_dependency 'pry'
   spec.add_development_dependency 'rake', '~> 10.0'
   spec.add_development_dependency 'rspec', '~> 3.4'
   spec.add_development_dependency 'rubocop', '0.58.2'
-  spec.add_development_dependency 'yard', '~> 0.8'
+  spec.add_development_dependency 'yard'
 end
