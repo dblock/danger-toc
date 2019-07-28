@@ -6,6 +6,7 @@ module Danger
       class KramdownConstructor < Kramdown::Converter::Toc
         def flatten(el)
           return [] unless el.type == :toc
+
           result = []
           if el.value
             result << {
@@ -14,10 +15,8 @@ module Danger
               depth: el.value.options[:level]
             }
           end
-          if el.children
-            el.children.each do |child|
-              result.concat(flatten(child))
-            end
+          el.children&.each do |child|
+            result.concat(flatten(child))
           end
           result
         end

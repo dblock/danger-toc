@@ -11,4 +11,7 @@ Metrics/LineLength:
 Style/ModuleFunction:
   Enabled: false
 
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
 inherit_from: .rubocop_todo.yml
