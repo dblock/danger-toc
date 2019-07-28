@@ -1,7 +1,9 @@
 ## Changelog
 
-### 0.1.4 (Next)
+### 0.2.0 (Next)
 
+* [#16](https://github.com/dblock/danger-toc/pull/16): Deprecate `check` in favor of `check!` - [@dblock](https://github.com/dblock).
+* [#16](https://github.com/dblock/danger-toc/pull/16): Deprecate `configure`, configure directly on `toc` - [@dblock](https://github.com/dblock).
 * Your contribution here.
 
 ### 0.1.3 (2018/08/15)

@@ -14,9 +14,7 @@ describe Danger::Toc::Config do
       end
       context 'custom value' do
         before do
-          Danger::Toc.configure do |config|
-            config.files = ['README.md', 'SOMETHING.md']
-          end
+          Danger::Toc.config.files = ['README.md', 'SOMETHING.md']
         end
 
         it 'is set' do
@@ -32,9 +30,7 @@ describe Danger::Toc::Config do
       end
       context 'custom value' do
         before do
-          Danger::Toc.configure do |config|
-            config.header = 'Custom TOC'
-          end
+          Danger::Toc.config.header = 'Custom TOC'
         end
 
         it 'is set' do
@@ -52,9 +48,7 @@ describe Danger::Toc::Config do
 
       context 'custom value' do
         before do
-          Danger::Toc.configure do |config|
-            config.format = :kramdown
-          end
+          Danger::Toc.config.format = :kramdown
         end
 
         it 'is set' do

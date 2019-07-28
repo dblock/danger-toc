@@ -1,4 +1,4 @@
 # danger.systems
 
-changelog.check
-toc.check
+changelog.check!
+toc.check!
