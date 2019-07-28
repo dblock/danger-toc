@@ -1,5 +1,9 @@
 ## Changelog
 
+### 0.2.1 (Next)
+
+* Your contribution here.
+
 ### 0.2.0 (2019/07/28)
 
 * [#16](https://github.com/dblock/danger-toc/pull/16): Deprecate `check` in favor of `check!` - [@dblock](https://github.com/dblock).
