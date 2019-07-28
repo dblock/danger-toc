@@ -13,7 +13,7 @@ describe Danger::Toc do
     let(:filename) { File.expand_path('fixtures/markdown_file/one_section_with_toc.md', __dir__) }
     let(:dangerfile) { testing_dangerfile }
     let(:toc) do
-      dangerfile.toc.filenames = [filename]
+      dangerfile.toc.files = [filename]
       dangerfile.toc
     end
     let(:status_report) { toc.status_report }
@@ -108,9 +108,7 @@ Here's the expected TOC for #{filename}:
 
       context 'with a custom toc header' do
         before do
-          Danger::Toc.configure do |config|
-            config.header = 'Custom TOC'
-          end
+          Danger::Toc.config.header = 'Custom TOC'
         end
 
         context 'with missing TOC' do

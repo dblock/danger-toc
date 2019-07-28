@@ -3,42 +3,44 @@ module Danger
   #
   # @example Run all checks on the default README.md.
   #
-  #          toc.check
+  #          toc.check!
   #
-  # @example Customize filenames and remind the requester to update TOCs when necessary.
+  # @example Customize files and remind the requester to update TOCs when necessary.
   #
-  #          toc.filenames = ['README.md']
+  #          toc.files = ['README.md']
   #          toc.is_toc_correct?
   #
   # @see  dblock/danger-toc
   # @tags toc
 
   class DangerToc < Plugin
-    # The toc filenames, defaults to `[README.md]`.
-    # @return [Array]
-    attr_accessor :filenames
+    extend Forwardable
 
-    def initialize(dangerfile)
-      @filenames = ['README.md']
-      super
+    def_delegators Danger::Toc.config, *Danger::Toc::Config::DELEGATORS
+
+    # Run all checks.
+    # @return [void]
+    def check!
+      is_toc_correct?
     end
 
     # Run all checks.
     # @return [void]
     def check
-      is_toc_correct?
+      warn '[DEPRECATION] `check` is deprecated. Please use `check!` instead.'
+      check!
     end
 
     # Has the README file been modified?
     # @return [boolean]
     def toc_changes?
-      (git.modified_files & filenames).any? || (git.added_files & filenames).any?
+      (git.modified_files & files).any? || (git.added_files & files).any?
     end
 
     # Is the TOC format correct?
     # @return [boolean]
     def is_toc_correct?
-      filenames.all? do |filename|
+      files.all? do |filename|
         toc_file = Danger::Toc::MarkdownFile.new(filename)
         if !toc_file.exists?
           messaging.fail("The #{filename} file does not exist.", sticky: false)

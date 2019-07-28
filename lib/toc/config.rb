@@ -3,7 +3,16 @@ module Danger
     module Config
       extend self
 
-      attr_accessor :files, :header
+      ATTRIBUTES = %i[
+        files
+        header
+      ].freeze
+
+      ACCESSORS = ATTRIBUTES.map { |name| "#{name}=".to_sym }
+
+      DELEGATORS = ATTRIBUTES + ACCESSORS
+
+      attr_accessor(*Config::ATTRIBUTES)
       attr_writer :format
 
       # Files to process
@@ -35,6 +44,7 @@ module Danger
 
     class << self
       def configure
+        warn '[DEPRECATION] `configure` is deprecated. Please directly configure the Danger plugin via `toc.xyz=` instead.'
         block_given? ? yield(Config) : Config
       end
 
