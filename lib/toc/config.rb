@@ -8,7 +8,7 @@ module Danger
         header
       ].freeze
 
-      ACCESSORS = ATTRIBUTES.map { |name| "#{name}=".to_sym }
+      ACCESSORS = ATTRIBUTES.map { |name| :"#{name}=" }
 
       DELEGATORS = ATTRIBUTES + ACCESSORS
 

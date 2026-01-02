@@ -6,19 +6,16 @@ require_relative 'constructors'
 module Danger
   module Toc
     class MarkdownFile
-      attr_reader :filename
-      attr_reader :exists
-      attr_reader :toc
-      attr_reader :headers
+      attr_reader :filename, :exists, :toc, :headers
 
       def initialize(filename = 'README.md')
         @filename = filename
         @exists = File.exist?(filename)
-        if @exists
-          parse!
-          reduce!
-          validate!
-        end
+        return unless @exists
+
+        parse!
+        reduce!
+        validate!
       end
 
       def exists?
@@ -68,10 +65,10 @@ module Danger
         headers.each do |header|
           min_depth = header[:depth] unless min_depth && min_depth < header[:depth]
         end
-        if min_depth
-          headers.each do |header|
-            header[:depth] -= min_depth
-          end
+        return unless min_depth
+
+        headers.each do |header|
+          header[:depth] -= min_depth
         end
       end
 

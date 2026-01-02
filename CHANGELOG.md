@@ -2,6 +2,9 @@
 
 ### 0.2.1 (Next)
 
+* [#18](https://github.com/dblock/danger-toc/pull/18): Migrate to danger-pr-comment workflow - [@dblock](https://github.com/dblock).
+* [#18](https://github.com/dblock/danger-toc/pull/18): Migrate from Travis CI to GitHub Actions - [@dblock](https://github.com/dblock).
+* [#18](https://github.com/dblock/danger-toc/pull/18): Upgrade rubocop to 1.82.0 - [@dblock](https://github.com/dblock).
 * Your contribution here.
 
 ### 0.2.0 (2019/07/28)

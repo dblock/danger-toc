@@ -4,13 +4,17 @@ gemspec
 
 group :development, :test do
   gem 'bundler'
-  gem 'danger-changelog', '~> 0.6.0'
-  gem 'guard', '~> 2.14'
-  gem 'guard-rspec', '~> 4.7'
+  gem 'danger'
+  gem 'danger-changelog'
+  gem 'danger-pr-comment'
+  gem 'guard'
+  gem 'guard-rspec'
   gem 'listen'
   gem 'pry'
-  gem 'rake', '~> 10.0'
-  gem 'rspec', '~> 3.4'
-  gem 'rubocop', '0.73.0'
+  gem 'rake'
+  gem 'rspec'
+  gem 'rubocop', '1.82.0'
+  gem 'rubocop-rake'
+  gem 'rubocop-rspec'
   gem 'yard'
 end

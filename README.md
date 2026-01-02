@@ -3,7 +3,7 @@
 A plugin for [danger.systems](http://danger.systems) that makes sure your project’s `README.md` has a TOC.
 
 [![Gem Version](https://badge.fury.io/rb/danger-toc.svg)](https://badge.fury.io/rb/danger-toc)
-[![Build Status](https://travis-ci.org/dblock/danger-toc.svg?branch=master)](https://travis-ci.org/dblock/danger-toc)
+[![CI](https://github.com/dblock/danger-toc/actions/workflows/ci.yml/badge.svg)](https://github.com/dblock/danger-toc/actions/workflows/ci.yml)
 
 ## Table of Contents
 
