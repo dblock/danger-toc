@@ -1,7 +1,7 @@
 require File.expand_path('spec_helper', __dir__)
 
 describe Danger::Toc::Config do
-  after(:each) do
+  after do
     described_class.reset
   end
 
@@ -12,6 +12,7 @@ describe Danger::Toc::Config do
           expect(Danger::Toc.config.files).to eq ['README.md']
         end
       end
+
       context 'custom value' do
         before do
           Danger::Toc.config.files = ['README.md', 'SOMETHING.md']
@@ -22,12 +23,14 @@ describe Danger::Toc::Config do
         end
       end
     end
+
     describe 'header' do
       context 'default' do
         it 'assumes Table of Contents' do
           expect(Danger::Toc.config.header).to eq 'Table of Contents'
         end
       end
+
       context 'custom value' do
         before do
           Danger::Toc.config.header = 'Custom TOC'

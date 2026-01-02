@@ -22,7 +22,7 @@ module Danger
         end
 
         def convert(el)
-          toc = flatten(super(el))
+          toc = flatten(super)
           has_toc = false
           headers = []
           toc.each do |line|
