@@ -12,6 +12,8 @@ A plugin for [danger.systems](https://danger.systems) that makes sure your proje
   - [toc.files](#tocfiles)
   - [toc.header](#tocheader)
   - [toc.check!](#toccheck)
+  - [TOC Options](#toc-options)
+  - [Diff Reports](#diff-reports)
 - [Contributing](#contributing)
 - [Copyright](#copyright)
 
@@ -50,6 +52,30 @@ toc.header = 'Custom Table of Contents'
 ### toc.check!
 
 Run all checks.
+
+### TOC Options
+
+```ruby
+toc.bullet = '*'       # '-', '*', or '+'; default '-'
+toc.indent = 4         # spaces per nesting level; default 2
+toc.max_depth = 3      # absolute Markdown heading level (1–6); default nil (all)
+toc.parser = 'Kramdown' # Kramdown input parser; default 'GFM'
+toc.format = :kramdown # anchor format; default :github
+toc.check!
+```
+
+Parser selection controls how Markdown is read; `format` controls generated anchor IDs. Install and require any additional Kramdown parser before selecting it. GFM and Kramdown input are available out of the box.
+
+When a TOC is missing, a leading `# Title` is excluded if every subsequent heading is nested below it. A lone heading or multiple top-level sections are retained. When a TOC exists, headings before it are excluded as before.
+
+### Diff Reports
+
+Full expected TOCs remain the default. Set `toc.report = :diff` to show only mismatched entries with two surrounding entries of context. Removed lines are prefixed with `-`, additions with `+`. Missing TOCs always show the full suggested TOC.
+
+```ruby
+toc.report = :diff
+toc.check!
+```
 
 ## Contributing
 

@@ -107,6 +107,22 @@ describe Danger::Toc do
           MARKDOWN
 ]
         end
+
+        it 'provides an opt-in diff while still reporting a failure' do
+          toc.report = :diff
+          expect(subject).to be false
+          expect(status_report[:markdowns].first.message).to include('```diff', '- current, + expected')
+          expect(status_report[:errors]).not_to be_empty
+        end
+      end
+
+      it 'delegates generation and parser settings through the plugin' do
+        toc.bullet = '+'
+        toc.indent = 4
+        toc.max_depth = 3
+        toc.parser = 'Kramdown'
+        toc.format = :kramdown
+        expect([toc.bullet, toc.indent, toc.max_depth, toc.parser, toc.format]).to eq(['+', 4, 3, 'Kramdown', :kramdown])
       end
 
       context 'with a custom toc header' do

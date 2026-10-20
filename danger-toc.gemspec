@@ -19,6 +19,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'activesupport'
   spec.add_dependency 'danger-plugin-api', '~> 1.0'
+  spec.add_dependency 'diff-lcs', '~> 1.5'
   spec.add_dependency 'kramdown'
   spec.add_dependency 'kramdown-parser-gfm'
   spec.metadata['rubygems_mfa_required'] = 'true'

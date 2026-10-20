@@ -1,7 +1,8 @@
 ## Changelog
 
-### 0.2.1 (Next)
+### 0.3.0 (Next)
 
+* [#20](https://github.com/dblock/danger-toc/pull/20): Configure bullets, indentation, maximum heading depth, and input parsers; exclude document titles from missing TOCs and support opt-in diff reports - [@dblock](https://github.com/dblock).
 * [#19](https://github.com/dblock/danger-toc/pull/19): Require Ruby 3.1, test through Ruby 4.0, declare the GFM parser dependency, and update pinned Danger workflows and contributor and release instructions - [@dblock](https://github.com/dblock).
 * [#18](https://github.com/dblock/danger-toc/pull/18): Migrate to danger-pr-comment workflow - [@dblock](https://github.com/dblock).
 * [#18](https://github.com/dblock/danger-toc/pull/18): Migrate from Travis CI to GitHub Actions - [@dblock](https://github.com/dblock).
