@@ -1,5 +1,9 @@
 ## Changelog
 
+### 0.3.1 (Next)
+
+* Your contribution here.
+
 ### 0.3.0 (2026-10-20)
 
 * [#21](https://github.com/dblock/danger-toc/pull/21): Support every global TOC setting as a per-check keyword override without changing defaults; snapshot configuration and report every failing file - [@dblock](https://github.com/dblock).
