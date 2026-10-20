@@ -1,4 +1,5 @@
 require 'active_support/core_ext/string/inflections'
+require 'kramdown-parser-gfm'
 
 require_relative 'extractor'
 require_relative 'constructors'

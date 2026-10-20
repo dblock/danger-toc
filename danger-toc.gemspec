@@ -11,13 +11,15 @@ Gem::Specification.new do |spec|
   spec.summary       = 'A danger.systems plugin for your markdown TOC.'
   spec.homepage      = 'https://github.com/dblock/danger-toc'
   spec.license       = 'MIT'
+  spec.required_ruby_version = '>= 3.1'
 
-  spec.files         = `git ls-files`.split($INPUT_RECORD_SEPARATOR)
+  spec.files         = Dir['lib/**/*.rb', 'README.md', 'CHANGELOG.md', 'LICENSE.txt']
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
   spec.add_dependency 'activesupport'
   spec.add_dependency 'danger-plugin-api', '~> 1.0'
   spec.add_dependency 'kramdown'
+  spec.add_dependency 'kramdown-parser-gfm'
   spec.metadata['rubygems_mfa_required'] = 'true'
 end

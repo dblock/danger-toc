@@ -1,6 +1,6 @@
 # danger-toc
 
-A plugin for [danger.systems](http://danger.systems) that makes sure your project’s `README.md` has a TOC.
+A plugin for [danger.systems](https://danger.systems) that makes sure your project's `README.md` has a TOC. Requires Ruby 3.1 or newer.
 
 [![Gem Version](https://badge.fury.io/rb/danger-toc.svg)](https://badge.fury.io/rb/danger-toc)
 [![CI](https://github.com/dblock/danger-toc/actions/workflows/ci.yml/badge.svg)](https://github.com/dblock/danger-toc/actions/workflows/ci.yml)
@@ -20,10 +20,10 @@ A plugin for [danger.systems](http://danger.systems) that makes sure your projec
 Add `danger-toc` to your Gemfile.
 
 ```
-gem 'danger-toc', '~> 0.1'
+gem 'danger-toc'
 ```
 
-Add `toc.check` to your Dangerfile. Make a pull request and see this plugin in action.
+Add `toc.check!` to your Dangerfile. Make a pull request and see this plugin in action.
 
 <img src='images/toc-missing.png'>
 
@@ -36,7 +36,7 @@ Methods and settings from this plugin are available in your `Dangerfile` under t
 List of files to ensure TOC in, default is `README.md`.
 
 ```ruby
-config.files = [ 'README.md', 'DEV.md' ]
+toc.files = ['README.md', 'DEV.md']
 ```
 
 ### toc.header
@@ -44,7 +44,7 @@ config.files = [ 'README.md', 'DEV.md' ]
 The Table of Contents header, without `#`, default is `Table of Contents`.
 
 ```ruby
-config.header = 'Custom Table of Contents'
+toc.header = 'Custom Table of Contents'
 ```
 
 ### toc.check!

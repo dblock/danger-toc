@@ -55,7 +55,7 @@ Make sure that `bundle exec rake` completes without errors.
 
 Document any external behavior in the [README](README.md).
 
-### Update Toc
+### Update Changelog
 
 Add a line to [CHANGELOG](CHANGELOG.md) under *Next Release*. Don't remove *Your contribution here*.
 
@@ -99,7 +99,7 @@ Amend your previous commit and force push the changes.
 
 ```
 git commit --amend
-git push origin my-feature-branch -f
+git push --force-with-lease origin my-feature-branch
 ```
 
 ### Rebase
@@ -109,12 +109,12 @@ If you've been working on a change for a while, rebase with upstream/master.
 ```
 git fetch upstream
 git rebase upstream/master
-git push origin my-feature-branch -f
+git push --force-with-lease origin my-feature-branch
 ```
 
 ### Check on Your Pull Request
 
-Go back to your pull request after a few minutes and see whether it passed muster with Travis-CI. Everything should look green, otherwise fix issues and amend your commit as described above.
+Go back to your pull request after a few minutes and check GitHub Actions. Everything should look green, otherwise fix issues and amend your commit as described above.
 
 ### Be Patient
 

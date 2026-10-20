@@ -7,6 +7,7 @@ require 'bundler/setup'
 require 'pry'
 
 require 'rspec'
+require 'logger'
 require 'danger'
 
 RSpec.configure do |config|

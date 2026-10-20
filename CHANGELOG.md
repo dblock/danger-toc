@@ -2,6 +2,7 @@
 
 ### 0.2.1 (Next)
 
+* [#19](https://github.com/dblock/danger-toc/pull/19): Require Ruby 3.1, test through Ruby 4.0, declare the GFM parser dependency, and update pinned Danger workflows and contributor and release instructions - [@dblock](https://github.com/dblock).
 * [#18](https://github.com/dblock/danger-toc/pull/18): Migrate to danger-pr-comment workflow - [@dblock](https://github.com/dblock).
 * [#18](https://github.com/dblock/danger-toc/pull/18): Migrate from Travis CI to GitHub Actions - [@dblock](https://github.com/dblock).
 * [#18](https://github.com/dblock/danger-toc/pull/18): Upgrade rubocop to 1.82.0 - [@dblock](https://github.com/dblock).
