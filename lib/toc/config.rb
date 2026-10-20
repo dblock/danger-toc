@@ -1,96 +1,81 @@
 module Danger
   module Toc
-    module Config
-      extend self
+    class Config
+      DEFAULTS = {
+        files: ['README.md'].freeze,
+        header: 'Table of Contents',
+        format: :github,
+        parser: 'GFM',
+        bullet: '-',
+        indent: 2,
+        max_depth: nil,
+        report: :full
+      }.freeze
 
-      ATTRIBUTES = %i[
-        files
-        header
-        format
-        parser
-        bullet
-        indent
-        max_depth
-        report
-      ].freeze
+      ATTRIBUTES = DEFAULTS.keys.freeze
+      DELEGATORS = (ATTRIBUTES + ATTRIBUTES.map { |name| :"#{name}=" }).freeze
 
-      ACCESSORS = ATTRIBUTES.map { |name| :"#{name}=" }
+      VALIDATORS = {
+        files: ->(value) { value.is_a?(Array) && value.all? { |file| file.is_a?(String) && !file.strip.empty? } },
+        header: ->(value) { value.is_a?(String) && !value.strip.empty? },
+        parser: ->(value) { value.is_a?(String) && !value.strip.empty? },
+        format: ->(value) { %i[github kramdown].include?(value) },
+        bullet: ->(value) { %w[- * +].include?(value) },
+        indent: ->(value) { value.is_a?(Integer) && value >= 0 },
+        max_depth: ->(value) { value.nil? || (value.is_a?(Integer) && (1..6).cover?(value)) },
+        report: ->(value) { %i[full diff].include?(value) }
+      }.freeze
 
-      DELEGATORS = ATTRIBUTES + ACCESSORS
+      attr_reader(*ATTRIBUTES)
 
-      attr_accessor(*Config::ATTRIBUTES)
-
-      # Files to process
-      def files=(value)
-        @files = value
+      ATTRIBUTES.each do |name|
+        define_method("#{name}=") do |value|
+          validate_option!(name, value)
+          instance_variable_set("@#{name}", snapshot(value))
+        end
       end
 
-      # Table of Contents Header
-      def header=(value)
-        @header = value
+      def initialize(**options)
+        unknown = options.keys - ATTRIBUTES
+        raise ArgumentError, "Unknown TOC options: #{unknown.join(', ')}" unless unknown.empty?
+
+        DEFAULTS.merge(options).each { |name, value| public_send("#{name}=", value) }
       end
 
-      def format
-        @format ||= default_format
+      def with(**options)
+        self.class.new(**to_h, **options).freeze
       end
 
-      def bullet=(value)
-        raise ArgumentError, 'bullet must be -, *, or +' unless %w[- * +].include?(value)
-
-        @bullet = value
-      end
-
-      def indent=(value)
-        raise ArgumentError, 'indent must be a non-negative Integer' unless value.is_a?(Integer) && value >= 0
-
-        @indent = value
-      end
-
-      def max_depth=(value)
-        raise ArgumentError, 'max_depth must be nil or an Integer between 1 and 6' unless value.nil? || (value.is_a?(Integer) && (1..6).cover?(value))
-
-        @max_depth = value
-      end
-
-      def parser=(value)
-        raise ArgumentError, 'parser must be a non-empty String' unless value.is_a?(String) && !value.strip.empty?
-
-        @parser = value
-      end
-
-      def report=(value)
-        raise ArgumentError, 'report must be :full or :diff' unless %i[full diff].include?(value)
-
-        @report = value
-      end
-
-      def default_format
-        :github
+      def to_h
+        ATTRIBUTES.to_h { |name| [name, public_send(name)] }
       end
 
       def reset
-        self.files = ['README.md']
-        self.header = 'Table of Contents'
-        self.format = default_format
-        self.parser = 'GFM'
-        self.bullet = '-'
-        self.indent = 2
-        self.max_depth = nil
-        self.report = :full
+        DEFAULTS.each { |name, value| public_send("#{name}=", value) }
       end
 
-      reset
+      private
+
+      def validate_option!(name, value)
+        raise ArgumentError, "Invalid TOC #{name}: #{value.inspect}" unless VALIDATORS.fetch(name).call(value)
+      end
+
+      def snapshot(value)
+        case value
+        when Array then value.map { |item| snapshot(item) }.freeze
+        when String then value.dup.freeze
+        else value
+        end
+      end
     end
 
-    class << self
-      def configure
-        warn '[DEPRECATION] `configure` is deprecated. Please directly configure the Danger plugin via `toc.xyz=` instead.'
-        block_given? ? yield(Config) : Config
-      end
+    def self.config
+      @config ||= Config.new
+    end
 
-      def config
-        Config
-      end
+    def self.configure
+      warn '[DEPRECATION] `configure` is deprecated. Please directly configure the Danger plugin via `toc.xyz=` instead.'
+      block_given? ? yield(config) : config
     end
   end
 end

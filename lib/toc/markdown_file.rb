@@ -4,13 +4,15 @@ require 'diff/lcs'
 
 require_relative 'extractor'
 require_relative 'constructors'
+require_relative 'config'
 
 module Danger
   module Toc
     class MarkdownFile
-      attr_reader :filename, :exists, :toc, :headers
+      attr_reader :filename, :exists, :toc, :headers, :config
 
-      def initialize(filename = 'README.md')
+      def initialize(filename = 'README.md', config: Danger::Toc.config.with)
+        @config = config
         @filename = filename
         @exists = File.exist?(filename)
         return unless @exists
@@ -39,8 +41,8 @@ module Danger
       def toc_from_headers
         headers.map do |header|
           [
-            ' ' * header[:depth] * Danger::Toc.config.indent,
-            "#{Danger::Toc.config.bullet} [#{header[:text]}]",
+            ' ' * header[:depth] * config.indent,
+            "#{config.bullet} [#{header[:text]}]",
             "(##{header[:id]})"
           ].compact.join
         end
@@ -78,23 +80,23 @@ module Danger
       # Parse markdown file for TOC.
       def parse!
         md = File.read(filename)
-        doc = Kramdown::Document.new(md, input: Danger::Toc.config.parser)
+        doc = Kramdown::Document.new(md, input: config.parser)
 
         extract_toc!(md, doc)
         construct_headers!(doc)
       end
 
       def extract_toc!(markdown, doc)
-        toc_start, toc_end = Danger::Toc::Extractor.convert(doc.root).first
+        toc_start, toc_end = Danger::Toc::Extractor.convert(doc.root, toc_header: config.header).first
         toc_end ||= markdown.lines.length + 1 if toc_start
         @has_toc = toc_start && toc_end
         @toc = markdown.split("\n")[toc_start, toc_end - toc_start - 1].reject(&:empty?) if @has_toc
       end
 
       def construct_headers!(doc)
-        @headers = Danger::Toc::Constructors.current.convert(doc.root).first
+        @headers = Danger::Toc::Constructors.get(config.format).convert(doc.root, toc_header: config.header).first
         headers.shift if !@has_toc && document_title?
-        headers.select! { |header| header[:depth] <= Danger::Toc.config.max_depth } if Danger::Toc.config.max_depth
+        headers.select! { |header| header[:depth] <= config.max_depth } if config.max_depth
       end
 
       def document_title?

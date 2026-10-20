@@ -4,7 +4,7 @@ Danger plugin for checking Markdown tables of contents. Requires Ruby 3.1 or new
 
 ## Structure
 
-* `lib/toc/config.rb`: shared configuration, reset between tests.
+* `lib/toc/config.rb`: declared options, validated global defaults, and immutable per-check snapshots.
 * `lib/toc/markdown_file.rb`: Markdown parsing, TOC extraction, normalization, and comparison.
 * `lib/toc/constructors/`: heading extraction and GitHub or Kramdown anchor generation.
 * `lib/toc/extractor.rb`: locates the existing TOC.
@@ -17,7 +17,7 @@ Install dependencies with `bundle install` when needed. Run `bundle exec rake sp
 
 CI covers Ruby 3.1 through 4.0 with compatible ActiveSupport versions. Set `ACTIVESUPPORT_VERSION` when resolving a particular compatibility bundle. Load `logger` after Bundler setup and before Danger when using older ActiveSupport versions; loading it before Bundler can activate an incompatible default-gem version.
 
-Preserve existing TOC output unless a behavior change is explicitly requested. Keep input parsing separate from anchor generation. Add focused regression tests and reset shared configuration after examples that change it.
+Preserve existing TOC output unless a behavior change is explicitly requested. Keep input parsing separate from anchor generation. Declare every option in Config::DEFAULTS and validate it in Config; global plugin accessors and per-check keywords must support the same options. Pass immutable snapshots through parsing and reporting; never read global defaults during a check. Add focused regression tests and reset global defaults after examples that change them.
 
 Update README.md for public behavior and keep its TOC in sync. Add changelog entries under the next release with the PR number and contributor attribution; retain the contribution placeholder. Keep Markdown paragraphs on one line.
 

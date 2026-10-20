@@ -2,13 +2,11 @@ require File.expand_path('../../spec_helper', __dir__)
 require 'tempfile'
 
 describe Danger::Toc::MarkdownFile do
-  after { Danger::Toc::Config.reset }
-
-  def parse_markdown(text)
+  def parse_markdown(text, **options)
     Tempfile.create(['toc', '.md']) do |file|
       file.write(text)
       file.flush
-      yield described_class.new(file.path)
+      yield described_class.new(file.path, config: Danger::Toc::Config.new(**options))
     end
   end
 
@@ -30,46 +28,37 @@ describe Danger::Toc::MarkdownFile do
   end
 
   it 'uses custom bullets and indentation to generate and validate a TOC' do
-    Danger::Toc.config.bullet = '*'
-    Danger::Toc.config.indent = 4
-    parse_markdown("# Title\n\n## Table of Contents\n\n* [Install](#install)\n    * [Details](#details)\n\n## Install\n\n### Details\n") do |file|
+    parse_markdown("# Title\n\n## Table of Contents\n\n* [Install](#install)\n    * [Details](#details)\n\n## Install\n\n### Details\n", bullet: '*', indent: 4) do |file|
       expect(file).to be_good
       expect(file.toc_from_headers).to eq(['* [Install](#install)', '    * [Details](#details)'])
     end
   end
 
   it 'limits absolute heading depth before normalizing indentation' do
-    Danger::Toc.config.max_depth = 2
-    parse_markdown("# Title\n\n## Install\n\n### Details\n\n## Usage\n") do |file|
+    parse_markdown("# Title\n\n## Install\n\n### Details\n\n## Usage\n", max_depth: 2) do |file|
       expect(file.toc_from_headers).to eq(['- [Install](#install)', '- [Usage](#usage)'])
     end
   end
 
   it 'supports plus bullets with no indentation' do
-    Danger::Toc.config.bullet = '+'
-    Danger::Toc.config.indent = 0
-    parse_markdown("# Title\n\n## Install\n\n### Details\n") do |file|
+    parse_markdown("# Title\n\n## Install\n\n### Details\n", bullet: '+', indent: 0) do |file|
       expect(file.toc_from_headers).to eq(['+ [Install](#install)', '+ [Details](#details)'])
     end
   end
 
   it 'handles a depth limit that excludes all sections' do
-    Danger::Toc.config.max_depth = 1
-    parse_markdown("# Title\n\n## Install\n") { |file| expect(file.toc_from_headers).to eq([]) }
+    parse_markdown("# Title\n\n## Install\n", max_depth: 1) { |file| expect(file.toc_from_headers).to eq([]) }
   end
 
   it 'supports Kramdown input separately from the anchor format' do
-    Danger::Toc.config.parser = 'Kramdown'
-    Danger::Toc.config.format = :kramdown
-    parse_markdown("# Table of Contents\n\n- [Install](#custom)\n\n## Install {#custom}\n") do |file|
+    parse_markdown("# Table of Contents\n\n- [Install](#custom)\n\n## Install {#custom}\n", parser: 'Kramdown', format: :kramdown) do |file|
       expect(file).to be_good
       expect(file.headers.first[:id]).to eq('custom')
     end
   end
 
   it 'propagates unsupported parser errors' do
-    Danger::Toc.config.parser = 'MissingParser'
-    expect { parse_markdown("# Title\n", &:headers) }.to raise_error(Kramdown::Error, /MissingParser/)
+    expect { parse_markdown("# Title\n", parser: 'MissingParser', &:headers) }.to raise_error(Kramdown::Error, /MissingParser/)
   end
 
   it 'recognizes a TOC at the end of a file' do

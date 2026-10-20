@@ -8,10 +8,11 @@ module Danger
         @toc_start = nil
         @toc_end = nil
         @in_toc = false
+        @toc_header = options.fetch(:toc_header, 'Table of Contents')
       end
 
       def convert(el)
-        if el.type == :header && el.options[:raw_text] == Danger::Toc.config.header
+        if el.type == :header && el.options[:raw_text] == @toc_header
           @in_toc = true
           @toc_start = el.options[:location]
         elsif el.type == :header

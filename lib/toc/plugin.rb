@@ -7,8 +7,7 @@ module Danger
   #
   # @example Customize files and remind the requester to update TOCs when necessary.
   #
-  #          toc.files = ['README.md']
-  #          toc.is_toc_correct?
+  #          toc.check!(files: ['README.md'], max_depth: 3)
   #
   # @see  dblock/danger-toc
   # @tags toc
@@ -16,53 +15,58 @@ module Danger
   class DangerToc < Plugin
     extend Forwardable
 
-    def_delegators Danger::Toc.config, *Danger::Toc::Config::DELEGATORS
+    def_delegators 'Danger::Toc.config', *Danger::Toc::Config::DELEGATORS
 
     # Run all checks.
-    # @return [void]
-    def check!
-      is_toc_correct?
+    # @param options [Hash] Per-check files, header, parser, format, bullet, indent, max_depth, and report settings.
+    # @return [boolean] Whether all files have correct TOCs.
+    def check!(**options)
+      config = Danger::Toc.config.with(**options)
+      config.files.map { |filename| check_file(filename, config) }.all?
     end
 
     # Run all checks.
-    # @return [void]
-    def check
+    # @return [boolean]
+    def check(**options)
       warn '[DEPRECATION] `check` is deprecated. Please use `check!` instead.'
-      check!
+      check!(**options)
     end
 
     # Has the README file been modified?
     # @return [boolean]
-    def toc_changes?
+    def toc_changes?(**options)
+      files = Danger::Toc.config.with(**options).files
       git.modified_files.intersect?(files) || git.added_files.intersect?(files)
     end
 
     # Is the TOC format correct?
     # @return [boolean]
-    def is_toc_correct?
-      files.all? do |filename|
-        toc_file = Danger::Toc::MarkdownFile.new(filename)
-        if !toc_file.exists?
-          messaging.fail("The #{filename} file does not exist.", sticky: false)
-          false
-        elsif toc_file.good?
-          true
-        else
-          report_toc(toc_file)
-          if toc_file.has_toc?
-            messaging.fail("The TOC found in #{filename} doesn't match the sections of the file.", sticky: false)
-          else
-            messaging.fail("The #{filename} file is missing a TOC.", sticky: false)
-          end
-          false
-        end
-      end
+    def is_toc_correct?(**options)
+      check!(**options)
     end
 
     private
 
+    def check_file(filename, config)
+      toc_file = Danger::Toc::MarkdownFile.new(filename, config: config)
+      if !toc_file.exists?
+        messaging.fail("The #{filename} file does not exist.", sticky: false)
+        false
+      elsif toc_file.good?
+        true
+      else
+        report_toc(toc_file)
+        if toc_file.has_toc?
+          messaging.fail("The TOC found in #{filename} doesn't match the sections of the file.", sticky: false)
+        else
+          messaging.fail("The #{filename} file is missing a TOC.", sticky: false)
+        end
+        false
+      end
+    end
+
     def report_toc(toc_file)
-      if Danger::Toc.config.report == :diff && toc_file.has_toc?
+      if toc_file.config.report == :diff && toc_file.has_toc?
         markdown <<~MARKDOWN
           Here's the TOC diff for #{toc_file.filename} (- current, + expected):
 
@@ -75,7 +79,7 @@ module Danger
           Here's the expected TOC for #{toc_file.filename}:
 
           ```markdown
-          # #{Danger::Toc.config.header}
+          # #{toc_file.config.header}
 
           #{toc_file.toc_from_headers.join("\n")}
           ```

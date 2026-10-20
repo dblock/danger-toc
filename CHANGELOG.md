@@ -2,6 +2,7 @@
 
 ### 0.3.0 (Next)
 
+* [#21](https://github.com/dblock/danger-toc/pull/21): Support every global TOC setting as a per-check keyword override without changing defaults; snapshot configuration and report every failing file - [@dblock](https://github.com/dblock).
 * [#20](https://github.com/dblock/danger-toc/pull/20): Configure bullets, indentation, maximum heading depth, and input parsers; exclude document titles from missing TOCs and support opt-in diff reports - [@dblock](https://github.com/dblock).
 * [#19](https://github.com/dblock/danger-toc/pull/19): Require Ruby 3.1, test through Ruby 4.0, declare the GFM parser dependency, and update pinned Danger workflows and contributor and release instructions - [@dblock](https://github.com/dblock).
 * [#18](https://github.com/dblock/danger-toc/pull/18): Migrate to danger-pr-comment workflow - [@dblock](https://github.com/dblock).

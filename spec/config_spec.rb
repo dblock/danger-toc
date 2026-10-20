@@ -1,71 +1,51 @@
 require File.expand_path('spec_helper', __dir__)
 
 describe Danger::Toc::Config do
-  after do
-    described_class.reset
-  end
-
-  it 'rejects invalid options without replacing the configuration' do
-    { bullet: '.', indent: -1, max_depth: 7, parser: '', report: :unknown }.each do |name, value|
-      previous = described_class.public_send(name)
-      expect { described_class.public_send("#{name}=", value) }.to raise_error(ArgumentError)
-      expect(described_class.public_send(name)).to eq(previous)
+  it 'rejects invalid options' do
+    { files: 'README.md', header: '', format: :unknown, bullet: '.', indent: -1, max_depth: 7, parser: '', report: :unknown }.each do |name, value|
+      expect { described_class.new(**{ name => value }) }.to raise_error(ArgumentError)
     end
   end
 
-  describe 'configure' do
-    describe 'files' do
-      context 'default' do
-        it 'assumes README.md' do
-          expect(Danger::Toc.config.files).to eq ['README.md']
-        end
-      end
+  it 'snapshots mutable inputs' do
+    files = [+'guide.md']
+    header = +'Contents'
+    config = described_class.new(files: files, header: header)
+    files.first.replace('other.md')
+    files << 'extra.md'
+    header.replace('Changed')
+    expect(config.files).to eq(['guide.md'])
+    expect(config.header).to eq('Contents')
+    expect(config.with).to be_frozen
+  end
 
-      context 'custom value' do
-        before do
-          Danger::Toc.config.files = ['README.md', 'SOMETHING.md']
-        end
+  it 'supports every option as a global setting and a per-check override' do
+    custom = { files: ['guide.md'], header: 'Contents', format: :kramdown, parser: 'Kramdown', bullet: '*', indent: 4, max_depth: 3, report: :diff }
+    global = described_class.new
+    custom.each { |name, value| global.public_send("#{name}=", value) }
+    expect(global.to_h).to eq(custom)
+    expect(global.with(**described_class::DEFAULTS).to_h).to eq(described_class::DEFAULTS)
+    expect(global.to_h).to eq(custom)
+  end
 
-        it 'is set' do
-          expect(Danger::Toc.config.files).to eq ['README.md', 'SOMETHING.md']
-        end
-      end
+  it 'requires validation for every declared option' do
+    described_class::ATTRIBUTES.each do |name|
+      expect { described_class.new(**{ name => Object.new }) }.to raise_error(ArgumentError)
     end
+  end
 
-    describe 'header' do
-      context 'default' do
-        it 'assumes Table of Contents' do
-          expect(Danger::Toc.config.header).to eq 'Table of Contents'
-        end
-      end
+  it 'keeps a check snapshot unchanged when defaults are reassigned' do
+    global = described_class.new(header: 'Contents', bullet: '*')
+    check = global.with(indent: 4)
+    global.header = 'New Contents'
+    global.bullet = '+'
+    expect([check.header, check.bullet, check.indent]).to eq(['Contents', '*', 4])
+  end
 
-      context 'custom value' do
-        before do
-          Danger::Toc.config.header = 'Custom TOC'
-        end
-
-        it 'is set' do
-          expect(Danger::Toc.config.header).to eq 'Custom TOC'
-        end
-      end
-    end
-
-    describe 'format' do
-      context 'default' do
-        it 'assumes github' do
-          expect(Danger::Toc.config.format).to eq(:github)
-        end
-      end
-
-      context 'custom value' do
-        before do
-          Danger::Toc.config.format = :kramdown
-        end
-
-        it 'is set' do
-          expect(Danger::Toc.config.format).to eq(:kramdown)
-        end
-      end
-    end
+  it 'rejects unknown overrides and leaves valid defaults intact after invalid assignment' do
+    global = described_class.new
+    expect { global.with(unknown: true) }.to raise_error(ArgumentError, /Unknown TOC options/)
+    expect { global.indent = -1 }.to raise_error(ArgumentError)
+    expect(global.indent).to eq(2)
   end
 end
