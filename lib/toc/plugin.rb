@@ -34,7 +34,7 @@ module Danger
     # Has the README file been modified?
     # @return [boolean]
     def toc_changes?
-      (git.modified_files & files).any? || (git.added_files & files).any?
+      git.modified_files.intersect?(files) || git.added_files.intersect?(files)
     end
 
     # Is the TOC format correct?
