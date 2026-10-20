@@ -1,23 +1,77 @@
 # Releasing Danger-Toc
 
-Start from clean, current master. Choose a version following [Semantic Versioning](https://semver.org/), update `lib/toc/gem_version.rb`, date its changelog section (`YYYY-MM-DD`), and remove the contribution placeholder. Run `bundle exec rake spec` immediately before committing. Commit and push the release preparation directly to master and confirm GitHub Actions passes.
+This workflow follows [CanonicalEmails](https://github.com/dblock/canonical-emails/blob/master/RELEASING.md). Publishing requires repository push access and RubyGems ownership with MFA enabled. Never commit credentials or OTP codes.
 
-Build and inspect the package before publishing:
+## Prepare
+
+Start from a clean, current master using a Ruby compatible with the ActiveSupport version in Gemfile:
+
+```sh
+git checkout master
+git pull --ff-only origin master
+```
+
+Install dependencies if needed. Run `bundle exec rake spec` once immediately before committing the release preparation.
+
+Confirm [CI](https://github.com/dblock/danger-toc/actions/workflows/ci.yml) passes across the full Ruby/ActiveSupport matrix. Follow [Semantic Versioning](https://semver.org/); during the initial 0.x series, increment the minor version for breaking changes and describe them explicitly.
+
+Ensure `lib/toc/gem_version.rb` matches the upcoming CHANGELOG.md section. Replace `Next` with a date in `YYYY-MM-DD` format, remove the contribution placeholder and extra blank lines within the release's list, and review compatibility changes. Commit and push directly on master; no release-preparation PR is needed:
+
+```sh
+bundle exec rake spec
+git add CHANGELOG.md lib/toc/gem_version.rb
+git commit -m "Prepare release 0.3.0"
+git push origin master
+```
+
+Use the intended version in place of 0.3.0 throughout this guide. Confirm the release commit's CI is green. Build and inspect the package from the clean release commit:
 
 ```sh
 bundle exec rake build
-tar -xOf pkg/danger-toc-VERSION.gem data.tar.gz | tar -tzf -
+tar -xOf pkg/danger-toc-0.3.0.gem data.tar.gz | tar -tzf -
 ```
 
-Only library files and published documentation belong in the package. Ask the maintainer for a fresh RubyGems OTP immediately before publishing, or complete MFA locally when prompted. Never store or commit credentials.
+The package should contain library files and published documentation, not specs, credentials, or local artifacts.
+
+## Publish and Verify
+
+Ask the maintainer for a fresh RubyGems OTP immediately before publishing. Never store it in files or commit it. Publish the inspected package, entering the OTP when prompted:
 
 ```sh
-gem push pkg/danger-toc-VERSION.gem
-git tag -a vVERSION -m "Version VERSION"
-git push origin vVERSION
-gh release create vVERSION --verify-tag --title VERSION --notes-file RELEASE_NOTES
+gem push pkg/danger-toc-0.3.0.gem
 ```
 
-Replace VERSION with the release version; RELEASE_NOTES should contain only that version's changelog entries. Verify RubyGems publication with `https://rubygems.org/api/v2/rubygems/danger-toc/versions/VERSION.json`, the tag's commit, and the GitHub release. If a step fails, check publication state and complete only missing steps; never overwrite a published version or move a pushed tag.
+If the upload fails or its result is unclear, check whether the version is already published before retrying the existing package. Verify the exact version using the RubyGems API; remote gem listings may lag:
 
-Complete the release by incrementing the patch version and prepending a matching `(Next)` changelog section with `* Your contribution here.`. Validate, commit, and push directly to master without a PR or new tag. Leave feature PRs for maintainer review; do not merge or publish unless requested.
+```sh
+curl --fail --silent --show-error https://rubygems.org/api/v2/rubygems/danger-toc/versions/0.3.0.json
+```
+
+After successful publication, create and push the release tag. Never move an existing pushed tag:
+
+```sh
+git tag -a v0.3.0 -m "Version 0.3.0"
+git push origin v0.3.0
+git ls-remote --tags origin 'v0.3.0*'
+```
+
+Create a [GitHub release](https://github.com/dblock/danger-toc/releases) from that tag using only that version's changelog entries, not the entire changelog. Verify the published gem version, tag commit, and GitHub release before continuing. A GitHub release does not publish the gem to RubyGems.
+
+## Next Development Version
+
+Complete the release by incrementing the patch version in `lib/toc/gem_version.rb` and prepending the matching changelog section:
+
+```markdown
+### 0.3.1 (Next)
+
+* Your contribution here.
+```
+
+```sh
+bundle exec rake spec
+git add CHANGELOG.md lib/toc/gem_version.rb
+git commit -m "Prepare next development version 0.3.1"
+git push origin master
+```
+
+Commit this directly on master, without a PR or a new release tag. Leave master clean and ready for development.

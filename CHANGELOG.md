@@ -1,6 +1,6 @@
 ## Changelog
 
-### 0.3.0 (Next)
+### 0.3.0 (2026-10-20)
 
 * [#21](https://github.com/dblock/danger-toc/pull/21): Support every global TOC setting as a per-check keyword override without changing defaults; snapshot configuration and report every failing file - [@dblock](https://github.com/dblock).
 * [#20](https://github.com/dblock/danger-toc/pull/20): Configure bullets, indentation, maximum heading depth, and input parsers; exclude document titles from missing TOCs and support opt-in diff reports - [@dblock](https://github.com/dblock).
@@ -8,7 +8,6 @@
 * [#18](https://github.com/dblock/danger-toc/pull/18): Migrate to danger-pr-comment workflow - [@dblock](https://github.com/dblock).
 * [#18](https://github.com/dblock/danger-toc/pull/18): Migrate from Travis CI to GitHub Actions - [@dblock](https://github.com/dblock).
 * [#18](https://github.com/dblock/danger-toc/pull/18): Upgrade rubocop to 1.82.0 - [@dblock](https://github.com/dblock).
-* Your contribution here.
 
 ### 0.2.0 (2019/07/28)
 
