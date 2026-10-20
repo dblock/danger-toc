@@ -5,6 +5,14 @@ describe Danger::Toc::Config do
     described_class.reset
   end
 
+  it 'rejects invalid options without replacing the configuration' do
+    { bullet: '.', indent: -1, max_depth: 7, parser: '', report: :unknown }.each do |name, value|
+      previous = described_class.public_send(name)
+      expect { described_class.public_send("#{name}=", value) }.to raise_error(ArgumentError)
+      expect(described_class.public_send(name)).to eq(previous)
+    end
+  end
+
   describe 'configure' do
     describe 'files' do
       context 'default' do
