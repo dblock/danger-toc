@@ -7,10 +7,6 @@ module Danger
       def self.get(name)
         const_get "#{name.to_s.camelize}Constructor"
       end
-
-      def self.current
-        get Danger::Toc.config.format
-      end
     end
   end
 end

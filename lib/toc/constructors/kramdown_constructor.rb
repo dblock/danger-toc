@@ -26,7 +26,7 @@ module Danger
           has_toc = false
           headers = []
           toc.each do |line|
-            if !has_toc && line[:text] == Danger::Toc.config.header
+            if !has_toc && line[:text] == (@options[:toc_header] || 'Table of Contents')
               headers = [] # drop any headers prior to TOC
               has_toc = true
             else
